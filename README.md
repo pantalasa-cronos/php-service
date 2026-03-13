@@ -37,3 +37,7 @@ composer analyse
 2. Make changes
 3. Run tests and static analysis
 4. Submit a PR
+
+## Lunar
+
+This component is monitored by [Lunar](https://github.com/earthly/lunar) for PHP guardrails compliance.
