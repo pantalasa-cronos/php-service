@@ -10,17 +10,13 @@ on:
 jobs:
   php_service_build:
     runs-on: cronos
-    container:
-      image: php:8.2-cli
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           clean: true
-      - name: Install system deps
-        run: |
-          apt-get update && apt-get install -y --no-install-recommends git unzip libzip-dev
-          docker-php-ext-install zip
+      - name: Install PHP
+        run: apt-get update && apt-get install -y --no-install-recommends php-cli php-xml php-mbstring unzip
       - name: Install Composer
         run: |
           php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
@@ -31,7 +27,7 @@ jobs:
       - name: Composer Version
         run: composer --version
       - name: Install Dependencies
-        run: composer install --no-interaction
+        run: composer install --no-interaction --no-progress
       - name: Run Tests
         run: php vendor/bin/phpunit --coverage-clover coverage.xml || true
       - name: Run Static Analysis
