@@ -42,3 +42,4 @@ composer analyse
 
 This component is monitored by [Lunar](https://github.com/earthly/lunar) for PHP guardrails compliance.
 
+
