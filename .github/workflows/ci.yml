@@ -1,34 +1,33 @@
 name: GH-Actions
 on:
-  push:
-    branches:
-      - "**"
-  pull_request:
-    branches:
-      - "**"
-
+    push:
+        branches:
+            - "**"
+    pull_request:
+        branches:
+            - "**"
 jobs:
-  php_service_build:
-    runs-on: cronos
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          clean: true
-      - name: Install PHP and Composer
-        run: |
-          curl -sSL https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer && chmod +x /usr/local/bin/composer
-          curl -sSL https://dl.static-php.dev/static-php-cli/common/php-8.2.27-cli-linux-x86_64.tar.gz | tar xz -C /usr/local/bin php
-          chmod +x /usr/local/bin/php
-      - name: PHP Version
-        run: php --version
-      - name: Composer Version
-        run: composer --version
-      - name: Install Dependencies
-        run: composer install --no-interaction --no-progress || true
-      - name: Run Tests
-        run: php vendor/bin/phpunit --coverage-clover coverage.xml || true
-      - name: Run Static Analysis
-        run: php vendor/bin/phpstan analyse --no-progress || true
-      - name: Check Code Style
-        run: php vendor/bin/php-cs-fixer fix --dry-run --diff || true
+    php_service_build:
+        runs-on: localdev-e2e-test-1775994700-main
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+              with:
+                clean: true
+            - name: Install PHP and Composer
+              run: |
+                curl -sSL https://getcomposer.org/download/latest-stable/composer.phar -o /usr/local/bin/composer && chmod +x /usr/local/bin/composer
+                curl -sSL https://dl.static-php.dev/static-php-cli/common/php-8.2.27-cli-linux-x86_64.tar.gz | tar xz -C /usr/local/bin php
+                chmod +x /usr/local/bin/php
+            - name: PHP Version
+              run: php --version
+            - name: Composer Version
+              run: composer --version
+            - name: Install Dependencies
+              run: composer install --no-interaction --no-progress || true
+            - name: Run Tests
+              run: php vendor/bin/phpunit --coverage-clover coverage.xml || true
+            - name: Run Static Analysis
+              run: php vendor/bin/phpstan analyse --no-progress || true
+            - name: Check Code Style
+              run: php vendor/bin/php-cs-fixer fix --dry-run --diff || true
